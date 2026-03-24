@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<link href="https://fonts.googleapis.com/css2?family=Kosugi&display=swap" rel="stylesheet">
+
+<style>
+:root { --main-red: #E60012; --main-green: #2b8a3e; --bg: #f8f9fa; }
+body { font-family: sans-serif; margin: 0; background: var(--bg); padding-bottom: 120px; }
+
+/* ロゴ用スタイル */
+.header { background: #fff; border-bottom: 2px solid var(--main-red); padding: 12px; text-align: center; }
+.logo-text { 
+  font-family: 'Kosugi', sans-serif; 
+  font-size: 1.7rem; 
+  color: var(--main-red);
+  text-decoration: none;
+  font-weight: bold;
+  letter-spacing: -1px;
+  -webkit-text-stroke: 1.5px var(--main-red); 
+  paint-order: stroke fill;
+  display: inline-flex;
+  align-items: flex-start;
+  line-height: 1.2;
+}
+
+.reg-mark {
+  -webkit-text-stroke: 0 !important;
+  font-size: 0.8rem;
+  margin-left: 2px;
+  vertical-align: super;
+  font-weight: normal;
+}
+
+.hero-outer { background: #fff; position: relative; width: 100%; max-width: 800px; margin: 0 auto; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 250px; }
+.hero-container { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; width: 100%; scroll-behavior: smooth; }
+.hero-container::-webkit-scrollbar { display: none; }
+.hero-img { min-width: 100%; width: 100%; height: auto; max-height: 450px; object-fit: contain; scroll-snap-align: start; flex-shrink: 0; background: #fff; }
+.nav-btn-pc { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(255,255,255,0.7); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; z-index: 10; font-size: 1.2rem; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.nav-left { left: 10px; } .nav-right { right: 10px; }
+@media (hover: none) { .nav-btn-pc { display: none; } }
+.dots { display: flex; justify-content: center; gap: 8px; padding: 12px 0; background: #fff; border-bottom: 1px solid #eee; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #ddd; transition: 0.3s; }
+.dot-active { background: var(--main-red); transform: scale(1.2); }
+.content { padding: 25px 20px; max-width: 800px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+.tagline { color: var(--main-red); font-size: 0.85rem; font-weight: bold; margin-bottom: 5px; }
+.shop-name { font-size: 1.7rem; font-weight: bold; margin-bottom: 15px; border-left: 6px solid var(--main-red); padding-left: 15px; line-height: 1.2; }
+.shop-comment { margin: 20px 0 35px 0; padding: 15px; border: 1px solid #ffebeb; background: #fff9f9; border-radius: 8px; font-size: 1rem; line-height: 1.8; color: #333; white-space: pre-wrap; }
+.section-title { font-size: 0.9rem; font-weight: bold; color: #999; margin: 35px 0 15px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.sv-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.sv-item { font-size: 0.7rem; padding: 4px 10px; border-radius: 6px; font-weight: bold; border: 1px dashed #ddd; color: #ccc; background: #fafafa; }
+.sv-on { border-style: solid !important; }
+.sv-on[data-name="新規契約"] { color: #e60012; border-color: #ffb3b3; background: #fff5f5; }
+.sv-on[data-name="乗り換え相談"] { color: #d6336c; border-color: #ffb3d9; background: #fff0f6; }
+.sv-on[data-name="Wi-Fi"] { color: #495057; border-color: #ced4da; background: #f1f3f5; }
+.sv-on[data-name="修理保険"] { color: #5c940d; border-color: #ccff99; background: #f4fce3; }
+.sv-on[data-name="買取"] { color: #6f2dbd; border-color: #d1b3ff; background: #f3f0ff; }
+.sv-on[data-name="修理"] { color: #d9480f; border-color: #ffcc99; background: #fff4e6; }
+.sv-on[data-name="コーティング"] { color: #1971c2; border-color: #99ccff; background: #e7f5ff; }
+.sv-on[data-name="スマートホーム"] { color: #a52a2a; border-color: #ffcccc; background: #fff0f0; }
+.sv-on[data-name="スマホ教室"] { color: #2b8a3e; border-color: #99ff99; background: #ebfbee; }
+.info-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+.info-table th { text-align: left; padding: 15px 10px; background: #f9f9f9; width: 100px; border-bottom: 1px solid #eee; color: #666; font-size: 0.85rem; }
+.info-table td { padding: 15px 10px; border-bottom: 1px solid #eee; font-size: 0.95rem; overflow-wrap: break-word; }
+.mini-btn { box-sizing: border-box; display: inline-block; padding: 10px 15px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; text-decoration: none; border: none; cursor: pointer; transition: 0.2s; width: auto; min-width: 150px; text-align: center; }
+.btn-copy { background: #eef7ee; color: var(--main-green); margin-top: 10px; }
+.copy-note { font-size: 0.7rem; color: #999; margin-top: 6px; display: block; }
+.btn-tel { background: #fff5f5; color: var(--main-red); display: none; margin-top: 10px; }
+@media (max-width: 768px) { .btn-tel { display: inline-flex; align-items: center; justify-content: center; } }
+.sns-group { display: flex; justify-content: center; gap: 15px; margin: 30px 0 50px 0; }
+.sns-btn { width: 60px; height: 60px; border-radius: 15px; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; font-size: 0.7rem; font-weight: bold; }
+.sns-insta { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+.sns-x { background: #000; }
+.sns-line { background: #06C755; }
+.footer-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 18px 0; border-top: 1px solid #ddd; display: flex; justify-content: center; box-shadow: 0 -3px 15px rgba(0,0,0,0.05); }
+.back-link { width: 90%; max-width: 450px; background: #f0f0f0; color: #333; text-align: center; padding: 14px; border-radius: 35px; text-decoration: none; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo-text">スマホドクター<span class="reg-mark">®</span></div>
+</div>
+
+<div class="hero-outer">
+  <button class="nav-btn-pc nav-left" onclick="moveSlider(-1)">＜</button>
+  <div class="hero-container" id="slider">
+    <? data.imgs.forEach(function(img){ ?><img src="<?= img ?>" class="hero-img" onerror="this.src='https://placehold.jp/400x300.png?text=No+Image'"><? }); ?>
+  </div>
+  <button class="nav-btn-pc nav-right" onclick="moveSlider(1)">＞</button>
+</div>
+<div class="dots" id="dots"><? data.imgs.forEach(function(_, i){ ?><div class="dot <?= i===0 ? 'dot-active' : '' ?>"></div><? }); ?></div>
+<div class="content">
+  <div class="tagline"><?= data.tagline ?></div>
+  <h1 class="shop-name"><?= data.name ?></h1>
+  <? if(data.comment){ ?><div class="shop-comment"><?!= data.comment ?></div><? } ?>
+  <div class="section-title">提供サービス</div>
+  <div class="sv-list">
+    <? const svcOrder = ["新規契約","乗り換え相談","Wi-Fi","修理保険","買取","修理","コーティング","スマートホーム","スマホ教室"];
+    svcOrder.forEach(function(name){ let isOn = data.services.includes(name); ?>
+    <span class="sv-item <?= isOn ? 'sv-on' : '' ?>" data-name="<?= name ?>"><?= name ?></span><? }); ?>
+  </div>
+  <div class="section-title">店舗情報</div>
+  <table class="info-table">
+    <tr><th>住所</th><td><div id="targetAddr"><?= data.address ?></div><button onclick="copyAddr()" class="mini-btn btn-copy" id="cpBtn">住所をコピー</button><span class="copy-note">※住所をコピーしてマップアプリ等に貼り付けてください</span></td></tr>
+    <tr>
+      <th>電話番号</th>
+      <td>
+        <div style="color: #333; text-decoration: none;"><?= data.tel ?></div>
+        <a href="tel:<?= data.tel ?>" class="mini-btn btn-tel">📞 電話をかける</a>
+      </td>
+    </tr>
+    <tr><th>営業時間</th><td><?= data.hours ?></td></tr>
+    <tr><th>定休日</th><td><?= data.holiday ?></td></tr>
+    
+    <tr>
+      <th>電気通信事業<br>届出番号</th>
+      <td>
+        <div><?= data.baikai_id || '---' ?></div>
+        <div style="font-size:0.7rem; color:#888; margin-top:5px; line-height:1.4;">
+          ※総務省に対し、法令に基づき電気通信事業の届出を行っています。
+        </div>
+      </td>
+    </tr>
+
+    <? if (data.services.includes("買取")) { ?>
+      <tr>
+        <th>古物商許可番号</th>
+        <td>
+          <a href="https://drmobile-fukuoka.com/p_curio/" target="_blank" style="color:#333; text-decoration:none; font-weight:normal;">
+            <?= data.law_id ?>
+          </a>
+        </td>
+      </tr>
+    <? } ?>
+  </table>
+  <div class="sns-group">
+    <? if(data.sns.insta){ ?><a href="<?= data.sns.insta ?>" class="sns-btn sns-insta" target="_blank">Instagram</a><? } ?>
+    <? if(data.sns.x){ ?><a href="<?= data.sns.x ?>" class="sns-btn sns-x" target="_blank">X</a><? } ?>
+    <? if(data.sns.line){ ?><a href="<?= data.sns.line ?>" class="sns-btn sns-line" target="_blank">LINE</a><? } ?>
+  </div>
+</div>
+<div class="footer-nav"><a href="<?= scriptUrl ?>" class="back-link" target="_top">店舗一覧へ戻る</a></div>
+<script>
+const slider = document.getElementById('slider');
+const dots = document.getElementById('dots').children;
+slider.addEventListener('scroll', () => {
+  const index = Math.round(slider.scrollLeft / slider.offsetWidth);
+  for(let i=0; i<dots.length; i++) { if(dots[i]) dots[i].classList.toggle('dot-active', i === index); }
+});
+function moveSlider(dir) { const width = slider.offsetWidth; slider.scrollBy({ left: width * dir, behavior: 'smooth' }); }
+function copyAddr() {
+  const addr = document.getElementById('targetAddr').innerText;
+  const btn = document.getElementById('cpBtn');
+  const el = document.createElement('textarea'); el.value = addr; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+  btn.innerText = "コピー完了！"; setTimeout(() => { btn.innerText = "住所をコピー"; }, 2000);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<style>
+:root { --main-red: #E60012; --bg: #f5f7f8; --input-bg: #fffde7; }
+body { font-family: sans-serif; background: var(--bg); margin: 0; padding-bottom: 120px; }
+.login-card { background: #fff; padding: 40px; border-radius: 15px; width: 320px; text-align: left; margin: 100px auto; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.btn-login { width: 100%; padding: 18px; background: var(--main-red); color: #fff; border: none; border-radius: 35px; font-weight: bold; cursor: pointer; text-align: center; }
+.btn-login:disabled { background: #ccc; }
+.container { max-width: 600px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+.img-admin-box { background: #f9f9f9; padding: 15px; border-bottom: 1px solid #eee; }
+.img-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; background: #fff; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+.img-status { font-size: 0.85rem; font-weight: bold; color: #666; }
+.img-status.on { color: #2b8a3e; }
+.img-preview-mini { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; display: none; }
+.img-btn { padding: 6px 12px; font-size: 0.75rem; border-radius: 4px; cursor: pointer; border: 1px solid #ddd; background: #fff; }
+.btn-del { color: var(--main-red); border-color: var(--main-red); margin-left: 5px; }
+.main-content { padding: 20px; }
+.section-hd { font-weight: bold; font-size: 0.85rem; margin: 25px 0 10px 0; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+.note-text { font-size: 0.75rem; color: #777; font-weight: normal; margin-left: 5px; }
+.editable-box { width: 100%; border: 2px solid #eee; border-radius: 6px; padding: 12px; box-sizing: border-box; font-size: 1rem; outline: none; }
+.bg-yellow { background-color: var(--input-bg) !important; }
+.shop-name-disp { font-size: 1.5rem; font-weight: bold; border-left: 6px solid var(--main-red); padding-left: 15px; margin: 15px 0; }
+.sv-grid { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 5px; }
+.sv-item { padding: 6px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; border: 1px solid #ddd; color: #ccc; cursor: pointer; }
+.sv-on { color: var(--main-red) !important; border: 1px solid var(--main-red) !important; background: #fff5f5; }
+.sv-fix { color: #fff !important; border: 1px solid #000 !important; background: #000 !important; cursor: default; }
+.info-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+.info-table th { width: 35%; background: #f9f9f9; padding: 12px; font-size: 0.8rem; text-align: left; border: 1px solid #eee; color: #666; }
+.info-table td { padding: 8px; border: 1px solid #eee; }
+.small-in { width: 60px; text-align: center; padding: 8px 4px; border: 1px solid #eee; border-radius: 4px; }
+.toolbar { background:#f5f5f5; padding:8px; border-bottom:1px solid #eee; display:flex; flex-wrap:wrap; gap:5px; align-items:center; }
+.toolbar button { min-width:30px; height:30px; cursor:pointer; background:#fff; border:1px solid #ddd; border-radius:3px; }
+.toolbar-note { font-size: 0.7rem; color: #999; margin-left: auto; }
+.sns-row { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.sns-icon { width: 45px; height: 30px; border-radius: 6px; background: #ccc; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; }
+.sns-on-insta { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888) !important; }
+.sns-on-x { background: #000 !important; }
+.sns-on-line { background: #06C755 !important; }
+.footer-bar { position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; padding: 20px 0; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); display: flex; justify-content: center; z-index: 1000; }
+.btn-submit-wrap { width: 85%; max-width: 400px; }
+#completeSection { text-align: center; padding: 60px 20px; display: none; }
+.kobutsu-flex { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.sel-pref { padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; background: var(--input-bg); }
+.num-in { flex: 1; min-width: 120px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.9rem; background: var(--input-bg); }
+</style>
+</head>
+<body>
+
+<div id="loginSection">
+  <div class="login-card">
+    <div style="color:var(--main-red); font-weight:bold; font-size:1.4rem; margin-bottom:25px; text-align:center;">SD CORE 管理画面</div>
+    <div style="font-size:0.8rem; color:#666; margin-bottom:5px;">店舗ID</div>
+    <input type="text" id="loginId" class="editable-box" style="margin-bottom:12px; background:#fff;">
+    <div style="font-size:0.8rem; color:#666; margin-bottom:5px;">パスワード</div>
+    <input type="password" id="loginPass" class="editable-box" style="margin-bottom:12px; background:#fff;">
+    <div style="margin: 10px 0 20px 0;"><label style="font-size:0.85rem; color:#666; cursor:pointer;"><input type="checkbox" id="rememberId"> 店舗IDを記憶する</label></div>
+    <button id="loginBtn" onclick="handleLogin()" class="btn-login">ログイン</button>
+  </div>
+</div>
+
+<div id="editSection" class="container" style="display:none;">
+  <div class="img-admin-box">
+    <div class="section-hd" style="margin-top:0;">店舗写真</div>
+    <div class="img-row">メイン写真: <div id="st1" class="img-status">確認中...</div><img id="pv1" class="img-preview-mini"><button class="img-btn" onclick="triggerFile(1)">変更</button></div>
+    <div class="img-row">写真2: <div id="st2" class="img-status">確認中...</div><img id="pv2" class="img-preview-mini"><div><button class="img-btn" onclick="triggerFile(2)">変更</button><button class="img-btn btn-del" onclick="delImg(2)">削除</button></div></div>
+    <div class="img-row">写真3: <div id="st3" class="img-status">確認中...</div><img id="pv3" class="img-preview-mini"><div><button class="img-btn" onclick="triggerFile(3)">変更</button><button class="img-btn btn-del" onclick="delImg(3)">削除</button></div></div>
+  </div>
+  <input type="file" id="fileInput" style="display:none" onchange="previewFile()">
+
+  <div class="main-content">
+    <div class="section-hd">キャッチコピー<span class="note-text">(任意)</span></div>
+    <input type="text" id="editTagline" class="editable-box bg-yellow" style="color:var(--main-red); font-weight:bold;">
+    <div id="dispName" class="shop-name-disp"></div>
+    
+    <div class="section-hd">店舗コメント</div>
+    <div style="border:2px solid #eee; border-radius:6px; overflow:hidden;">
+      <div class="toolbar">
+        <button onclick="exec('bold')">B</button><button onclick="exec('underline')">U</button><button onclick="exec('foreColor','#000000')">黒</button><button onclick="exec('foreColor','#E60012')" style="color:red">赤</button>
+        <button onclick="exec('fontSize','4')">大</button><button onclick="exec('fontSize','3')">中</button><button onclick="exec('fontSize','2')">小</button>
+        <span class="toolbar-note">※デフォルトサイズは『中』</span>
+      </div>
+      <div id="editComment" class="editable-box bg-yellow" contenteditable="true" style="min-height:150px; border:none;"></div>
+    </div>
+
+    <div class="section-hd">提供サービス</div>
+    <div id="svList" class="sv-grid"></div>
+    <div class="note-text">※新規・乗り換え相談は変更不可</div>
+
+    <div class="section-hd">店舗詳細情報</div>
+    <table class="info-table">
+      <tr><th>住所</th><td><div id="dispAddr" style="font-size:0.8rem; color:#666;"></div><div class="note-text" style="margin-top:5px;">※住所の修正が必要な場合は本部へお問い合わせください</div></td></tr>
+      <tr><th>電話番号</th><td><input id="tel1" class="small-in bg-yellow">-<input id="tel2" class="small-in bg-yellow">-<input id="tel3" class="small-in bg-yellow"></td></tr>
+      <tr><th>営業時間</th><td><input id="h1" class="small-in bg-yellow">:<input id="m1" class="small-in bg-yellow"> 〜 <input id="h2" class="small-in bg-yellow">:<input id="m2" class="small-in bg-yellow"></td></tr>
+      <tr><th>定休日</th><td><input id="editHoliday" class="editable-box bg-yellow"></td></tr>
+      
+      <tr><th>届出番号(総務省)</th><td><input id="editBaikai" class="editable-box bg-yellow" placeholder="G1234567"></td></tr>
+      
+      <tr id="kobutsuRow">
+        <th>古物商許可番号</th>
+        <td>
+          <div class="kobutsu-flex">
+            <select id="kobutsuPref" class="sel-pref">
+              <option value="">都道府県</option>
+              <option value="北海道">北海道</option><option value="青森県">青森県</option><option value="岩手県">岩手県</option><option value="宮城県">宮城県</option><option value="秋田県">秋田県</option><option value="山形県">山形県</option><option value="福島県">福島県</option><option value="茨城県">茨城県</option><option value="栃木県">栃木県</option><option value="群馬県">群馬県</option><option value="埼玉県">埼玉県</option><option value="千葉県">千葉県</option><option value="東京都">東京都</option><option value="神奈川県">神奈川県</option><option value="新潟県">新潟県</option><option value="富山県">富山県</option><option value="石川県">石川県</option><option value="福井県">福井県</option><option value="山梨県">山梨県</option><option value="長野県">長野県</option><option value="岐阜県">岐阜県</option><option value="静岡県">静岡県</option><option value="愛知県">愛知県</option><option value="三重県">三重県</option><option value="滋賀県">滋賀県</option><option value="京都府">京都府</option><option value="大阪府">大阪府</option><option value="兵庫県">兵庫県</option><option value="奈良県">奈良県</option><option value="和歌山県">和歌山県</option><option value="鳥取県">鳥取県</option><option value="島根県">島根県</option><option value="岡山県">岡山県</option><option value="広島県">広島県</option><option value="山口県">山口県</option><option value="徳島県">徳島県</option><option value="香川県">香川県</option><option value="愛媛県">愛媛県</option><option value="高知県">高知県</option><option value="福岡県">福岡県</option><option value="佐賀県">佐賀県</option><option value="長崎県">長崎県</option><option value="熊本県">熊本県</option><option value="大分県">大分県</option><option value="宮崎県">宮崎県</option><option value="鹿児島県">鹿児島県</option><option value="沖縄県">沖縄県</option>
+            </select>
+            <span style="font-size:0.75rem;">公安委員会</span>
+          </div>
+          <div class="kobutsu-flex" style="margin-top:6px;">
+            <span style="font-size:0.75rem;">第</span>
+            <input id="kobutsuNum" class="num-in" placeholder="123456789012" maxlength="12">
+            <span style="font-size:0.75rem;">号</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="section-hd">SNS連携</div>
+    <div class="sns-row"><div id="icon-insta" class="sns-icon">INSTA</div><input id="editInsta" class="editable-box" placeholder="Instagram URL" oninput="checkSns()"></div>
+    <div class="sns-row"><div id="icon-x" class="sns-icon">X</div><input id="editX" class="editable-box" placeholder="X URL" oninput="checkSns()"></div>
+    <div class="sns-row"><div id="icon-line" class="sns-icon">LINE</div><input id="editLine" class="editable-box" placeholder="LINE URL" oninput="checkSns()"></div>
+  </div>
+  
+  <div class="footer-bar">
+    <div class="btn-submit-wrap"><button id="submitBtn" class="btn-login" onclick="submit()">承認申請を送信する</button></div>
+  </div>
+</div>
+
+<div id="completeSection" class="container">
+  <h2 style="color:var(--main-red); margin-top:40px;">送信完了</h2>
+  <div style="background:#f9f9f9; padding:30px; border-radius:10px; margin:20px;">
+    <p style="font-weight:bold; font-size:1.1rem;">承認をお待ちください。</p>
+    <p style="color:#666; font-size:0.9rem; line-height:1.6;">追加で修正がある場合は「編集画面に戻る」ボタンを、<br>終了する場合はブラウザの画面を閉じてください。</p>
+    <button onclick="backToEdit()" class="btn-login" style="margin-top:20px; max-width:250px;">編集画面に戻る</button>
+  </div>
+</div>
+
+<script>
+let curId, curName, curAddr, curImgIdx, curSv = [], initialImgs = [];
+const SV_DATA = ['Wi-Fi','修理保険','買取','修理','コーティング','スマートホーム','スマホ教室'];
+
+window.onload=()=>{
+  const sid=localStorage.getItem('savedShopId');
+  if(sid){ document.getElementById('loginId').value=sid; document.getElementById('rememberId').checked=true; }
+};
+
+function handleLogin() {
+  const id=document.getElementById('loginId').value, ps=document.getElementById('loginPass').value;
+  const btn=document.getElementById('loginBtn');
+  btn.innerText="ログイン中..."; btn.disabled=true;
+  if(document.getElementById('rememberId').checked) localStorage.setItem('savedShopId', id);
+  else localStorage.removeItem('savedShopId');
+  google.script.run.withSuccessHandler(res=>{
+    if(res.success){
+      curId=res.shopData.id; curName=res.shopData.name; curAddr=res.shopData.address;
+      document.getElementById('loginSection').style.display='none'; document.getElementById('editSection').style.display='block';
+      const s=res.shopData;
+      document.getElementById('dispName').innerText=s.name; document.getElementById('dispAddr').innerText=s.address;
+      document.getElementById('editTagline').value=s.tagline; document.getElementById('editComment').innerHTML=s.comment;
+      document.getElementById('tel1').value=s.tel1; document.getElementById('tel2').value=s.tel2; document.getElementById('tel3').value=s.tel3;
+      document.getElementById('h1').value=s.h1; document.getElementById('m1').value=s.m1; document.getElementById('h2').value=s.h2; document.getElementById('m2').value=s.m2;
+      document.getElementById('editHoliday').value=s.holiday; 
+      document.getElementById('editBaikai').value=s.baikai||""; 
+      
+      if(s.kobutsu){
+        const m = s.kobutsu.match(/(.*?)公安委員会\s*第\s*(\d+)\s*号/);
+        if(m){
+          document.getElementById('kobutsuPref').value = m[1];
+          document.getElementById('kobutsuNum').value = m[2];
+        } else {
+          document.getElementById('kobutsuNum').value = s.kobutsu;
+        }
+      }
+
+      document.getElementById('editInsta').value=s.insta||""; document.getElementById('editX').value=s.x||""; document.getElementById('editLine').value=s.line||"";
+      curSv=s.sv; initialImgs=[s.img, s.img2, s.img3]; updateImgStatus(false); renderSv(); checkSns();
+    } else { alert("IDまたはパスワードが正しくありません"); btn.innerText="ログイン"; btn.disabled=false; }
+  }).checkLogin(id,ps);
+}
+
+function updateImgStatus(isPre) {
+  for(let i=1; i<=3; i++) {
+    const st=document.getElementById('st'+i), pv=document.getElementById('pv'+i), url=initialImgs[i-1];
+    if(url && url.length > 10){ 
+      st.innerText="設定済み"; st.classList.add('on');
+      // ここで「変更」した時だけ小窓プレビューを出す元々の動きを維持
+      if(isPre && curImgIdx == i) { pv.src=url; pv.style.display="block"; }
+    } else { st.innerText="未設定"; st.classList.remove('on'); pv.style.display="none"; }
+  }
+}
+
+function renderSv() {
+  let h='<div class="sv-item sv-fix">新規契約</div><div class="sv-item sv-fix">乗り換え相談</div>';
+  h += SV_DATA.map((n,i)=>`<div class="sv-item ${curSv[i]?'sv-on':''}" onclick="toggleSv(${i})">${n}</div>`).join('');
+  document.getElementById('svList').innerHTML=h;
+  const pref=document.getElementById('kobutsuPref');
+  const num=document.getElementById('kobutsuNum');
+  const kRow=document.getElementById('kobutsuRow');
+  if(!curSv[2]){ 
+    pref.disabled=true; num.disabled=true; num.value=""; pref.value="";
+    kRow.style.display="none"; 
+  } else { 
+    pref.disabled=false; num.disabled=false;
+    kRow.style.display="table-row";
+  }
+}
+
+function toggleSv(i){ curSv[i]=!curSv[i]; renderSv(); }
+function checkSns(){
+  document.getElementById('icon-insta').className = 'sns-icon' + (document.getElementById('editInsta').value?' sns-on-insta':'');
+  document.getElementById('icon-x').className = 'sns-icon' + (document.getElementById('editX').value?' sns-on-x':'');
+  document.getElementById('icon-line').className = 'sns-icon' + (document.getElementById('editLine').value?' sns-on-line':'');
+}
+
+function exec(c,v){ document.execCommand(c,false,v); }
+function triggerFile(i){ curImgIdx=i; document.getElementById('fileInput').click(); }
+function delImg(i){ initialImgs[i-1]=""; document.getElementById('pv'+i).style.display="none"; updateImgStatus(false); }
+function previewFile(){
+  const f=document.getElementById('fileInput').files[0], r=new FileReader();
+  r.onloadend=()=>{ initialImgs[curImgIdx-1]=r.result; updateImgStatus(true); document.getElementById('fileInput').value=""; };
+  if(f) r.readAsDataURL(f);
+}
+
+function backToEdit(){ document.getElementById('completeSection').style.display='none'; document.getElementById('editSection').style.display='block'; window.scrollTo(0,0); }
+
+function submit() {
+  const v = (id) => document.getElementById(id).value;
+  const p = v('kobutsuPref'), n = v('kobutsuNum');
+  if (curSv[2]) {
+    if (!p || p === "") { alert("都道府県を選択してください"); return; }
+    if (!n || n.trim() === "") { alert("番号を入力してください"); return; }
+  }
+  let fullKobutsu = (curSv[2] && p && n) ? p + "公安委員会 第" + n + "号" : "";
+  if(!v('tel1')||!v('tel2')||!v('tel3')||!v('h1')||!v('m1')||!v('h2')||!v('m2')||!v('editHoliday')||!v('editBaikai')){
+    alert("詳細情報の必須項目をすべて入力してください"); return;
+  }
+  const btn=document.getElementById('submitBtn'); btn.innerText="送信中..."; btn.disabled=true;
+  const d={
+    id:curId, name:curName, address:curAddr,
+    tagline:v('editTagline'), comment:document.getElementById('editComment').innerHTML,
+    tel1:v('tel1'), tel2:v('tel2'), tel3:v('tel3'), h1:v('h1'), m1:v('m1'), h2:v('h2'), m2:v('m2'),
+    holiday:v('editHoliday'), baikai:v('editBaikai'), kobutsu:fullKobutsu,
+    insta:v('editInsta'), x:v('editX'), line:v('editLine'),
+    sv:curSv, img:initialImgs[0], img2:initialImgs[1], img3:initialImgs[2]
+  };
+  google.script.run.withSuccessHandler(()=>{
+    btn.innerText="承認申請を送信する"; btn.disabled=false;
+    document.getElementById('editSection').style.display='none'; 
+    document.getElementById('completeSection').style.display='block';
+    window.scrollTo(0,0); 
+  }).submitApproval(d);
+}
+</script>
+</body>
+</html>
