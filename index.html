@@ -1,25 +1,51 @@
 <!DOCTYPE html>
+
 <html lang="ja">
+
 <head>
+
   <meta charset="utf-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <title>SD-CORE System</title>
+
   <style>
+
     body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #ffffff; }
+
     iframe { width: 100%; height: 100%; border: none; display: block; }
+
   </style>
+
 </head>
+
 <body>
+
   <script>
-    // あなたが今デプロイしている最新のGAS URL
-    const gasUrl = "https://script.google.com/macros/s/AKfycbzQoZW7_DxFUxQ8zivQ2IWpEZ9HJKQpM7Fr6C6lDsMeHuhVOqgEOb1-5kIZSN3Czong/exec";
+
+    // 先ほどデモで使ったGASのURL（?より前の部分）
+
+    const gasUrl = "https://script.google.com/a/macros/jcn.ne.jp/s/AKfycbzQoZW7_DxFUxQ8zivQ2IWpEZ9HJKQpM7Fr6C6lDsMeHuhVOqgEOb1-5kIZSN3Czong/exec";
+
     
-    // URLのパラメータ (?mode=admin など) を取得して引き継ぐ
+
+    // URLのパラメータ (?mode=admin など) を取得
+
     const query = window.location.search;
+
     
+
+    // iframeで表示（これでURLが固定されます）
+
     const ifrm = document.createElement('iframe');
+
     ifrm.setAttribute('src', gasUrl + query);
+
     document.body.appendChild(ifrm);
+
   </script>
+
 </body>
+
 </html>
