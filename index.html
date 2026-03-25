@@ -5,35 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SD CORE System</title>
   <style>
-    body { 
-      margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; 
-      height: 100vh; background-color: #f8f9fa; font-family: sans-serif; color: #333;
-    }
-    .loading-box { text-align: center; }
-    .loader {
-      border: 5px solid #f3f3f3; border-top: 5px solid #E60012;
-      border-radius: 50%; width: 40px; height: 40px;
-      animation: spin 1s linear infinite; margin: 0 auto 15px;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #fff; }
+    iframe { width: 100%; height: 100%; border: none; }
   </style>
 </head>
 <body>
 
-<div class="loading-box">
-  <div class="loader"></div>
-  <p>SD CORE システムに接続中...</p>
-</div>
+<iframe id="mainFrame" src=""></iframe>
 
 <script>
-  // あなたから送られた最新のURL
+  // あなたのGASの最新URL
   const gasUrl = "https://script.google.com/macros/s/AKfycbzQoZW7_DxFUxQ8zivQ2IWpEZ9HJKQpM7Fr6C6lDsMeHuhVOqgEOb1-5kIZSN3Czong/exec";
   
-  // 現在のURLにある ?id=... などの情報を取得
+  // URLの?id=... や ?mode=admin を引き継ぐ
   const query = window.location.search;
   
-  // 3. 直接ジャンプさせることでセキュリティ制限を回避
-  window.location.href = gasUrl + query;
+  // iframeの中にGASを映し出す（URLをGitHubのままに保つ）
+  document.getElementById('mainFrame').src = gasUrl + query;
 </script>
 
 </body>
