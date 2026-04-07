@@ -5,22 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>SD-CORE System</title>
   <style>
-    /* 画面いっぱいに表示し、余計なスクロールや空白を排除する設定 */
+    /* 画面いっぱいに表示し、余計なスクロールや空白を排除 */
     body, html { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; background-color: #ffffff; }
     iframe { width: 100%; height: 100%; border: none; display: block; }
   </style>
 </head>
 <body>
   <script>
-    // あなたが修正した最新のGAS URL
+    // 1. 最新のGAS URLを設定
     const gasUrl = "https://script.google.com/a/macros/jcn.ne.jp/s/AKfycbyn7nPowg-mVpz0yg7II3g0NIseCuQAeq4cJFD8FU0x0cnBGrQ2VuyCuW6haEbx8zqw/exec";
     
-    // 現在のURLにある「?mode=admin」などの指示を読み取ります
+    // 2. 現在のURLのパラメータ（?id=... や ?mode=admin など）を取得
     const query = window.location.search;
     
-    // 窓（iframe）を作成し、指示を合体させて表示します
+    // 3. iframeを作成
     const ifrm = document.createElement('iframe');
+    
+    // 【重要】位置情報を許可するための属性をすべて追加
+    ifrm.setAttribute('allow', 'geolocation'); 
     ifrm.setAttribute('src', gasUrl + query);
+    
     document.body.appendChild(ifrm);
   </script>
 </body>
